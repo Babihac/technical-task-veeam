@@ -24,12 +24,10 @@ def getProcessInfo(process):
         exit(1)
 
 def watchProcess(process, interval):
-    ticker = threading.Event()
-    while True:
-        data = getProcessInfo(process)
-        printProcessInfo(data)
-        storeProcessInfo("processWatcher.csv", data)
-        time.sleep(interval)
+    data = getProcessInfo(process)
+    printProcessInfo(data)
+    storeProcessInfo("processWatcher.csv", data)
+    threading.Timer(interval, watchProcess, [process, interval]).start()
 
 def storeProcessInfo(filename, data):
     fileExist = os.path.isfile(filename)
@@ -40,7 +38,7 @@ def storeProcessInfo(filename, data):
         writer.writerow(data)
 
 def printProcessInfo(data):
-    print("CPU usage [%] = {}".format(data[0]))
+    print("CPU usage[%] = {}".format(data[0]))
     print("RSS = {}".format(data[1]))
     print("VMZ = {}".format(data[2]))
     print("FDS = {}".format(data[3]))

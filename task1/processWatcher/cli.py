@@ -11,7 +11,7 @@ def main():
     args = parse_cmd_line_arguments()
     checkRequiredArguments(args)
     print(args)
-    init(args.process, args.interval)
+    init(args.process, int(args.interval))
     
 
 def parse_cmd_line_arguments():
